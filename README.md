@@ -60,10 +60,9 @@ Instance profile (recommended)
 aws configure with least-privilege IAM user/role
 
 ## Quick Start (Local)
-```
-chmod +x scripts/*.sh
+```chmod +x scripts/*.sh
 ./scripts/12_daily_system_health_summary.sh
-```
+
 
 ## Install (Recommended)
 This installs dependencies, copies repo to /opt/devops-automation-scripts, and symlinks scripts to /usr/local/bin.
