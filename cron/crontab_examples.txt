@@ -1,0 +1,14 @@
+# Disk check every 15 minutes
+*/15 * * * * /opt/devops-automation-scripts/scripts/01_disk_usage_alert.sh
+
+# Log cleanup daily at 2:10am
+10 2 * * * LOG_DIR=/var/log DAYS_OLD=14 /opt/devops-automation-scripts/scripts/02_log_cleanup.sh
+
+# Stop office-hour instances at 7pm Mon-Fri (region/tag set as env)
+0 19 * * 1-5 REGION=us-east-1 TAG_KEY=Schedule TAG_VALUE=OfficeHours /opt/devops-automation-scripts/scripts/03_ec2_start_stop.sh stop
+
+# Start at 7am Mon-Fri
+0 7 * * 1-5 REGION=us-east-1 TAG_KEY=Schedule TAG_VALUE=OfficeHours /opt/devops-automation-scripts/scripts/03_ec2_start_stop.sh start
+
+# Daily health summary at 8am
+0 8 * * * /opt/devops-automation-scripts/scripts/12_daily_system_health_summary.sh > /var/log/daily_health.txt 2>&1
