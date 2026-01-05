@@ -60,40 +60,42 @@ Instance profile (recommended)
 aws configure with least-privilege IAM user/role
 
 ## Quick Start (Local)
-```chmod +x scripts/*.sh
+```bash
+chmod +x scripts/*.sh
 ./scripts/12_daily_system_health_summary.sh
+```
 
 
 ## Install (Recommended)
 This installs dependencies, copies repo to /opt/devops-automation-scripts, and symlinks scripts to /usr/local/bin.
 
-```
+```bash
 sudo bash install/install.sh
 ```
 
 ## Choose scheduling method
 Use systemd timers (recommended):
 
-```
+```bash
 sudo USE_SYSTEMD=true bash install/install.sh
 ```
 
 Or use cron jobs:
 
-```
+```bash
 sudo USE_SYSTEMD=false bash install/install.sh
 ```
 
 ## Running Scripts (Examples)
 Disk alert
 
-```
+```basj
 THRESHOLD=80 EMAIL_TO=you@example.com /usr/local/bin/01_disk_usage_alert
 ```
 
 Log cleanup
 
-```
+```bash
 LOG_DIR=/var/log DAYS_OLD=14 DRY_RUN=true /usr/local/bin/02_log_cleanup
 ```
 
@@ -102,7 +104,7 @@ LOG_DIR=/var/log DAYS_OLD=14 DRY_RUN=true /usr/local/bin/02_log_cleanup
 - Schedule=OfficeHours
 - Then:
 
-```
+```bash
 REGION=us-east-1 TAG_KEY=Schedule TAG_VALUE=OfficeHours /usr/local/bin/03_ec2_start_stop stop
 REGION=us-east-1 TAG_KEY=Schedule TAG_VALUE=OfficeHours /usr/local/bin/03_ec2_start_stop start
 ```
@@ -112,12 +114,12 @@ REGION=us-east-1 TAG_KEY=Schedule TAG_VALUE=OfficeHours /usr/local/bin/03_ec2_st
 - Backup=Daily
 - Then:
 
-```
+```bash
 REGION=us-east-1 MAX_AGE_HOURS=30 TAG_KEY=Backup TAG_VALUE=Daily /usr/local/bin/04_backup_verify_aws_snapshots
 ```
 
 ## IAM audit report
-```
+```bash
 /usr/local/bin/05_iam_audit > iam_audit.csv
 /usr/local/bin/06_access_key_rotation_report > key_rotation_report.csv
 ```
@@ -147,7 +149,7 @@ readable
 safe defaults
 consistent formatting (bash, shellcheck)
 
-```
+
 
 # 2) IAM Policies (Least Privilege) ✅
 
@@ -158,7 +160,7 @@ Create folder: `iam/`
 Allows describing instances + starting/stopping only.  
 (Restrict by region in your role usage and by tag at the script level.)
 
-```json
+```bash
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -187,7 +189,7 @@ Note: Tag-level restrictions for Start/Stop are possible but can be tricky acros
 
 B) Snapshot Verify Policy — iam/snapshot_verify_policy.json
 Allows describing volumes + snapshots to verify backup freshness.
-```
+```bash
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -206,7 +208,7 @@ Allows describing volumes + snapshots to verify backup freshness.
 
 C) IAM Audit Policy — iam/iam_audit_policy.json
 Allows listing IAM users, access keys, and checking last-used info.
-```
+```bash
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -227,7 +229,7 @@ Allows listing IAM users, access keys, and checking last-used info.
 3) GitHub Actions (ShellCheck) ✅
 Create: .github/workflows/shellcheck.yml
 
-```
+```bash
 name: ShellCheck
 
 on:
