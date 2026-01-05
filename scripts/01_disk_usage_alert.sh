@@ -9,7 +9,7 @@ HOST="$(hostname -f 2>/dev/null || hostname)"
 
 ALERTS=()
 
-while read -r filesystem size used avail usepct mount; do
+while read -r filesystem _ _ avail usepct mount; do
   pct="${usepct%\%}"
   if [[ "$pct" -ge "$THRESHOLD" ]]; then
     ALERTS+=("Mount: $mount | Usage: $usepct | Avail: $avail | FS: $filesystem")

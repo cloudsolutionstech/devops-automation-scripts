@@ -27,8 +27,10 @@ fi
 log "Action=$ACTION Region=$REGION Instances: $INSTANCE_IDS"
 
 if [[ "$ACTION" == "stop" ]]; then
+  # shellcheck disable=SC2086
   aws ec2 stop-instances --region "$REGION" --instance-ids $INSTANCE_IDS >/dev/null
 else
+  # shellcheck disable=SC2086
   aws ec2 start-instances --region "$REGION" --instance-ids $INSTANCE_IDS >/dev/null
 fi
 
